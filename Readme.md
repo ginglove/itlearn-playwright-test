@@ -1,1 +1,2 @@
+Tổng hợp các bài tập cho Playwright liên quan Dynamic Table và Smartwait để học viên thực hiện
 ITLearn playwright test course 1
