@@ -1,0 +1,3 @@
+testCase,username,ho_kh,ten_kh,sdt,dia_chi,email,gioi_tinh,ten_dn,mat_khau,captcha,apiStatus,status,countUserBefor,countUserAfter
+1,123456qerty1,Pham,Trung,0987654567,123,12@gmail.com,1,123123www4556,12345qưerjhg,KS72W,201,PASS,85,85
+2,123456qerty2,Pham,Trung,0987654567,123,12c@gmail.com,1,12wwww,12345qưerjhg,KS72W,400,PASS,85,85

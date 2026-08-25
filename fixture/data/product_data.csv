@@ -1,0 +1,3 @@
+testCase,ten_hoa,ma_loai,gia,trang_thai,mo_ta,hinh_anh,status,countUserBefor,countUserAfter
+1,Hoa hong,HH01,45000,1,mota_1,hh01.jpg,PASS,72,72
+2,Hoa lan,HL01,45000,1,mota_2,hh01.jpg,PASS,72,72
