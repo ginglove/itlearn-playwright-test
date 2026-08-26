@@ -1,0 +1,28 @@
+{
+  "name": "playwright-test",
+  "version": "1.0.0",
+  "description": "Playwright Automation Testing Suite",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:smoke": "playwright test --grep \"@smoke\"",
+    "test:auth": "playwright test --grep \"@auth\"",
+    "test:update-snapshots": "playwright test --update-snapshots",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^10.5.0",
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.0.1",
+    "@types/papaparse": "^5.5.2",
+    "@types/pg": "^8.21.0",
+    "dotenv": "^17.4.2",
+    "papaparse": "^5.5.4",
+    "pg": "^8.23.0",
+    "zod": "^4.4.3"
+  },
+  "dependencies": {
+    "csv-parse": "^7.0.2",
+    "csv-writer": "^1.6.0"
+  }
+}
