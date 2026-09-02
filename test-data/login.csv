@@ -1,0 +1,10 @@
+testcaseId;Testcase;email;SDT;pass;OTP;code;status
+login_01;khong nhap email;;;Gampt@1234573;;400;
+login_02;nhap sai email;phamgam031.ptit@gmail.com;;Gampt@1234573;;400;
+login_03;nhap sai sdt;;0981234570;Gampt@1234573;;400;
+login_04;nhap sai pass;phamgam03.ptit@gmail.com;;Gampt@12345;;400;
+login_05;khong nhap pass;;;Gampt@1234573;;400;
+login_06;dang nhap thanh cong bang email;phamgam03.ptit@gmail.com;;Gampt@1234573;;201;
+login_07;dang nhap thanh cong bang SDT;;0981234573;Gampt@1234573;;201;
+login_08;Khong nhap OTP;;0981234573;;;400;
+login_09;Nhap OTP;;0981234573;;888888;201;

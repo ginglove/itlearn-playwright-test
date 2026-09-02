@@ -1,0 +1,8 @@
+testcaseId,Testcase,fullName,email,SDT,pass,confirm_pass,OTP,code,status
+Reg_01,khong nhap fullName,,phamgam03.ptit@gmail.com,0981234567,Gampt@1234567,Gampt@1234567,888888,400,
+Reg_02,khong nhap email,Pham Thi Gam,,0981234568,Gampt@1234568,Gampt@1234568,888888,400,
+Reg_03,khong nhap sdt,Pham Thi Gam,phamgam03.ptit@gmail.com,,Gampt@1234569,Gampt@1234569,888888,400,
+Reg_04,khong nhap passw,Pham Thi Gam,phamgam03.ptit@gmail.com,0981234570,,Gampt@1234569,888888,400,
+Reg_05,khong nhap xac nhan passw,Pham Thi Gam,phamgam03.ptit@gmail.com,0981234571,Gampt@1234571,,888888,400,passed
+Reg_06,khong nhap OTP,Pham Thi Gam,phamgam03.ptit@gmail.com,0981234572,Gampt@1234572,Gampt@1234572,,400,passed
+Reg_07,nhap day du thong tin,Pham Thi Gam,phamgam03.ptit@gmail.com,0981234573,Gampt@1234573,Gampt@1234573,888888,201,passed
