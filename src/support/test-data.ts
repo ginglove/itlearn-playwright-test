@@ -1,7 +1,7 @@
 import { randomBytes, randomInt } from 'node:crypto';
 
 export const SANDBOX_BASE_URL = 'https://training-car.netlify.app';
-export const SANDBOX_HOSTNAME = 'car-training.netlify.app';
+export const SANDBOX_HOSTNAME = new URL(SANDBOX_BASE_URL).hostname;
 export const DEFAULT_SANDBOX_OTP = '888888';
 
 export interface CustomerAccount {

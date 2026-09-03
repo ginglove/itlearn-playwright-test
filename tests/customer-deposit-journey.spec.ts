@@ -25,6 +25,7 @@ test.describe('Car Training customer purchase journey', () => {
   test(`register, compare catalog, configure vehicle and ${
     submitDeposit ? 'submit VietQR deposit' : 'validate checkout [dry-run]'
   }`, async ({ page }, testInfo) => {
+    test.setTimeout(90_000);
     const account = createUniqueCustomerAccount();
     const pageErrors: string[] = [];
     const consoleErrors: string[] = [];

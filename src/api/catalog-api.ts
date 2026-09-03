@@ -59,9 +59,13 @@ function parseVehicle(value: unknown, index: number): CatalogVehicle {
   };
 
   vehiclePrice(vehicle);
-  const quota = Number(vehicle.availableQuota);
-  if (!Number.isInteger(quota) || quota < 0) {
-    throw new Error(`Catalog item ${index} has invalid availableQuota.`);
+   const quota = Number(vehicle.availableQuota);
+
+  if (!Number.isSafeInteger(quota) || quota < 0) {
+    throw new Error(
+      `Catalog item ${index} has invalid availableQuota: `
+      + `${JSON.stringify(vehicle.availableQuota)}. Expected a non-negative integer.`,
+    );
   }
 
   return vehicle;
