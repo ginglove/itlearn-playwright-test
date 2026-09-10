@@ -1,0 +1,25 @@
+testCaseId,description,fullName,email,phone,password,confirmPassword,agreeTerms,otp,status
+TC01,Đăng ký thành công với thông tin hợp lệ (Happy Case),Nguyen Van A,AUTO_GENERATE,AUTO_GENERATE,Password@123,Password@123,true,888888,PASS
+TC02,Bỏ trống Họ và tên,,AUTO_GENERATE,AUTO_GENERATE,Password@123,Password@123,true,888888,PASS
+TC03,Bỏ trống Email,Nguyen Van A,,AUTO_GENERATE,Password@123,Password@123,true,888888,PASS
+TC04,Bỏ trống Số điện thoại,Nguyen Van A,AUTO_GENERATE,,Password@123,Password@123,true,888888,PASS
+TC05,Bỏ trống Mật khẩu,Nguyen Van A,AUTO_GENERATE,AUTO_GENERATE,,Password@123,true,888888,PASS
+TC06,Bỏ trống Xác nhận mật khẩu,Nguyen Van A,AUTO_GENERATE,AUTO_GENERATE,Password@123,,true,888888,PASS
+TC07,Không tích chọn đồng ý điều khoản,Nguyen Van A,AUTO_GENERATE,AUTO_GENERATE,Password@123,Password@123,false,888888,FAIL
+TC08,Email sai định dạng thiếu ký tự @,Nguyen Van A,testemaildomain.com,AUTO_GENERATE,Password@123,Password@123,true,888888,PASS
+TC09,Email sai định dạng thiếu tên miền .com,Nguyen Van A,testemail@domain,AUTO_GENERATE,Password@123,Password@123,true,888888,PASS
+TC10,Số điện thoại không đủ 10 số (9 số),Nguyen Van A,AUTO_GENERATE,091234567,Password@123,Password@123,true,888888,PASS
+TC11,Số điện thoại chứa chữ cái ký tự,Nguyen Van A,AUTO_GENERATE,0987abc123,Password@123,Password@123,true,888888,PASS
+TC12,Mật khẩu dưới 10 ký tự (chỉ 8-9 ký tự),Nguyen Van A,AUTO_GENERATE,AUTO_GENERATE,Pass@123,Pass@123,true,888888,PASS
+TC13,Mật khẩu thiếu chữ viết hoa,Nguyen Van A,AUTO_GENERATE,AUTO_GENERATE,password@123,password@123,true,888888,PASS
+TC14,Mật khẩu thiếu chữ viết thường,Nguyen Van A,AUTO_GENERATE,AUTO_GENERATE,PASSWORD@123,PASSWORD@123,true,888888,PASS
+TC15,Mật khẩu thiếu chữ số,Nguyen Van A,AUTO_GENERATE,AUTO_GENERATE,Password@abc,Password@abc,true,888888,PASS
+TC16,Mật khẩu thiếu ký tự đặc biệt,Nguyen Van A,AUTO_GENERATE,AUTO_GENERATE,Password1234,Password1234,true,888888,PASS
+TC17,Xác nhận mật khẩu không khớp với mật khẩu,Nguyen Van A,AUTO_GENERATE,AUTO_GENERATE,Password@123,Password@456,true,888888,PASS
+TC18,Họ và tên chỉ chứa khoảng trắng,,AUTO_GENERATE,AUTO_GENERATE,Password@123,Password@123,true,888888,PASS
+TC19,Số điện thoại thừa số (11 số),Nguyen Van A,AUTO_GENERATE,09123456789,Password@123,Password@123,true,888888,PASS
+TC20,Đăng ký với Email đã tồn tại trong hệ thống,Nguyen Van A,existing_user@gmail.com,AUTO_GENERATE,Password@123,Password@123,true,888888,PASS
+TC21,Đăng ký với Số điện thoại đã tồn tại,Nguyen Van A,AUTO_GENERATE,0988888888,Password@123,Password@123,true,888888,PASS
+TC22,Nhập mã OTP không đủ 6 số,Nguyen Van A,AUTO_GENERATE,AUTO_GENERATE,Password@123,Password@123,true,88888,PASS
+TC23,Nhập mã OTP sai giá trị,Nguyen Van A,AUTO_GENERATE,AUTO_GENERATE,Password@123,Password@123,true,999999,PASS
+TC24,Bỏ trống mã OTP khi xác nhận,Nguyen Van A,AUTO_GENERATE,AUTO_GENERATE,Password@123,Password@123,true,,PASS
