@@ -1,0 +1,2 @@
+id,title,expectedStatus
+CASE_01,Verify car count on UI and API,200

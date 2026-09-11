@@ -1,0 +1,13 @@
+id,title,name,email,phone,password,confirmPassword,otp,acceptTerms,expectedResult,expectedStatus
+TC_01,Happy path_Sign up successful,Vu Minh Hang,mihhang2409@gmail.com,0971285898,Abc@123456,Abc@123456,888888,true,FAIL,409
+TC_02,Invalid email,Vu Minh Hang,vmh1.testgmail.com,0971285898,Abc@123456,Abc@123456,888888,true,VALIDATION,
+TC_03,Empty email,Vu Minh Hang,,0971285898,Abc@123456,Abc@123456,888888,true,VALIDATION,
+TC_04,Invalid phone number,Vu Minh Hang,vmh1.test@gmail.com,097128589712345678,Abc@123456,Abc@123456,888888,true,VALIDATION,
+TC_05,Empty phone number,Vu Minh Hang,vmh1.test@gmail.com,,Abc@123456,Abc@123456,888888,true,VALIDATION,
+TC_06,Invalid password,Vu Minh Hang,vmh1.test@gmail.com,0971285898,1,1,888888,true,VALIDATION,
+TC_07,Empty password,Vu Minh Hang,vmh1.test@gmail.com,0971285898,,,888888,true,VALIDATION,
+TC_08,Password mismatch validation,Vu Minh Hang,vmh1.test@gmail.com,0971285898,Abc@123456,Abc@123456789,888888,true,VALIDATION,
+TC_09,Invalid OTP Code,Vu Minh Hang,vmh1.test@gmail.com,0971285898,Abc@123456,Abc@123456,990099,true,VALIDATION,
+TC_10,Empty OTP Code,Vu Minh Hang,vmh1.test@gmail.com,0971285898,Abc@123456,Abc@123456,,true,VALIDATION,
+TC_11,Uncheck Terms & Privacy,Vu Minh Hang,vmh1.test@gmail.com,0971285898,Abc@123456,Abc@123456,888888,false,DISABLED,
+TC_12,Already have account,,,,,,,,NAVIGATION,

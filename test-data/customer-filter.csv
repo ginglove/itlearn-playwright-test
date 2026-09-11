@@ -1,0 +1,2 @@
+id,title,maxPrice,expectedPriceText,loanPercent,loanTerm
+CASE_02,Verify customer filter and deposit,1600000000,1.6B,60,8 năm (96 tháng)

@@ -1,0 +1,11 @@
+id,title,loginType,email,password,phone,otp,expectedResult,expectedRole,errorKey
+TC_02,Login successful by password,PASSWORD,mihhang2409@gmail.com,Abc@123456,,,SUCCESS,CUSTOMER,
+TC_03,Invalid email,PASSWORD,mihhang24@gmail.com,Abc@123456,,,FAIL,,WRONG_LOGIN
+TC_04,Empty email,PASSWORD,,Abc@123456,,,VALIDATION,,REQUIRED_EMAIL
+TC_05,Invalid password,PASSWORD,mihhang2409@gmail.com,Abc@123456789,,,FAIL,,WRONG_LOGIN
+TC_06,Empty password,PASSWORD,mihhang2409@gmail.com,,,,VALIDATION,,REQUIRED_PASSWORD
+TC_07,Login successful by OTP,OTP,,,0971285897,888888,SUCCESS,CUSTOMER,
+TC_08,Invalid phone,OTP,,,09712858978900,,VALIDATION,,INVALID_PHONE
+TC_09,Empty phone,OTP,,,,,VALIDATION,,EMPTY_PHONE
+TC_10,Invalid OTP,OTP,,,0971285897,990099,FAIL,,WRONG_OTP
+TC_11,Empty OTP,OTP,,,0971285897,,VALIDATION,,REQUIRED_OTP
