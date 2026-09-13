@@ -48,13 +48,9 @@ export class CarDetailPage {
         await this.webGl3D.click();
     }
 
-    async zoomIn() {
+    async zoomInteraction() {
         await this.car3D.hover();
         await this.page.mouse.wheel(0, -500);
-    }
-
-    async zoomOut() {
-        await this.car3D.hover();
         await this.page.mouse.wheel(0, 500);
     }
 

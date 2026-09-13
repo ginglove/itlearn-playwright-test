@@ -1,0 +1,11 @@
+id,scenario,expectedMessage
+TC_01,already_registered,Email hoặc số điện thoại này đã được đăng ký trước đó
+TC_02,invalid_email,Please include an '@' in the email address. 'vmh1.testgmail.com' is missing an '@'.
+TC_03,empty_email,Please fill out this field.
+TC_04,invalid_phone,Số điện thoại Việt Nam không hợp lệ
+TC_05,empty_phone,Please fill out this field.
+TC_06,invalid_password,"Mật khẩu phải từ 10 ký tự, gồm ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt (@$!%*?&)"
+TC_07,empty_password,Please fill out this field.
+TC_08,password_mismatch,Mật khẩu xác nhận không khớp!
+TC_09,invalid_otp,Mã OTP không đúng hoặc đã hết hạn (Sandbox code: 888888)
+TC_10,empty_otp,Please fill out this field.

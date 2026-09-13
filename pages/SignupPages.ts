@@ -2,7 +2,7 @@ import {Locator, Page} from '@playwright/test';
 
 export class SignUp {
     readonly page: Page;
-    readonly signUpBtn: Locator;
+
     readonly nameInput: Locator;
     readonly emailInput: Locator;
     readonly phoneNo: Locator;
@@ -20,7 +20,7 @@ export class SignUp {
 
     constructor (page: Page) {
         this.page = page;
-        this.signUpBtn = page.getByRole('button', {name: 'Đăng ký'});
+
         this.nameInput = page.locator('input[id="fullName"]');
         this.emailInput = page.locator('input[id="email"]');
         this.phoneNo = page.locator('input[id="phone"]');
@@ -39,32 +39,32 @@ export class SignUp {
         await this.page.goto(url);
     }
 
-    async signUp() {
-        await this.signUpBtn.click();
-    }
-
-    async fillName(name: string) {
-        await this.nameInput.fill(name);
-    }
-
-    async fillEmail(email: string) {
-        await this.emailInput.fill(email);
-    }
-
-    async fillPhone(phone: string) {
-        await this.phoneNo.fill(phone);
-    }
-
-    async fillPassword(password: string) {
-        await this.passwordInput.fill(password);
-    }
-
-    async fillConfirmPassword(rePassword: string) {
-        await this.passwordRecf.fill(rePassword);
-    }
-
-    async fillOtp(otp: string) {
-        await this.otpCode.fill(otp);
+    async signUpInfor(
+        name?: string,
+        email?: string,
+        phone?: string,
+        password?: string,
+        rePassword?: string,
+        otp?: string
+    ) {
+        if(name) {
+            await this.nameInput.fill(name);
+        }
+        if (email) {
+            await this.emailInput.fill(email);
+        }
+        if (phone) {
+            await this.phoneNo.fill(phone);
+        }
+        if (password) {
+            await this.passwordInput.fill(password);
+        }
+        if (rePassword) {
+            await this.passwordRecf.fill(rePassword);
+        }
+        if (otp) {
+            await this.otpCode.fill(otp);
+        }
     }
     
     async acceptTerms() {

@@ -2,7 +2,7 @@ import {Locator, Page} from '@playwright/test';
 
 export class ForgotPassword {
     readonly page: Page;
-    readonly logInBtn: Locator;
+    
     readonly forgotPass: Locator;
     readonly phoneInput: Locator;
     readonly sendOtpBtn: Locator;
@@ -13,7 +13,7 @@ export class ForgotPassword {
 
     constructor (page: Page) {
         this.page = page;
-        this.logInBtn = page.getByRole('button', {name: 'Đăng nhập'});
+        
         this.forgotPass = page.getByRole('button', {name: 'Quên mật khẩu?'});
         this.phoneInput = page.locator('div[class="flex gap-2"] input');
         this.sendOtpBtn = page.locator('div[class="flex gap-2"] button');
@@ -25,10 +25,6 @@ export class ForgotPassword {
 
     async goto(url: string) {
         await this.page.goto(url);
-    }
-
-    async clickLogInBtn() {
-        await this.logInBtn.click();
     }
 
     async clickForgotPass() {
@@ -43,16 +39,16 @@ export class ForgotPassword {
         await this.sendOtpBtn.click();
     }
 
-    async fillOtp(otp: string) {
-        await this.otpInput.fill(otp);
-    }
-
-    async fillNewPass(newPass: string) {
-        await this.newPass.fill(newPass);
-    }
-
-    async fillConfirmPass(confirmPass: string) {
-        await this.reCfNewPass.fill(confirmPass);
+    async setNewPass(otp: string, newPass: string, confirmPass: string) {
+        if (otp) {
+            await this.otpInput.fill(otp);
+        }
+        if (newPass) {
+            await this.newPass.fill(newPass);
+        }
+        if (confirmPass) {
+            await this.reCfNewPass.fill(confirmPass);
+        }
     }
 
     async clickResetPass() {

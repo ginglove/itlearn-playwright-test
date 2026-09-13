@@ -1,0 +1,10 @@
+id,errorKey,scenario,expectedMessage
+TC_03,WRONG_LOGIN,invalid_email,Sai thông tin đăng nhập. Mật khẩu hoặc Email/SĐT không đúng.
+TC_04,REQUIRED_EMAIL,empty_email,Please fill out this field.
+TC_05,WRONG_LOGIN,invalid_password,Sai thông tin đăng nhập. Mật khẩu hoặc Email/SĐT không đúng.
+TC_06,REQUIRED_PASSWORD,empty_password,Please fill out this field.
+TC_07,SUCCESS,happy_path_OTP,OTP sent successfully (Sandbox: 888888)
+TC_08,INVALID_PHONE,invalid_phone,
+TC_09,EMPTY_PHONE,empty_phone,
+TC_10,WRONG_OTP,invalid_otp,Số điện thoại chưa được đăng ký trong hệ thống hoặc không chính xác.
+TC_11,REQUIRED_OTP,empty_otp,Please fill out this field.

@@ -1,4 +1,4 @@
-import {Locator, Page} from '@playwright/test';
+import {Locator, Page, expect} from '@playwright/test';
 
 export class HomePage {
     readonly page: Page;
@@ -27,7 +27,7 @@ export class HomePage {
         this.carType = page.getByLabel('Sedan');
         this.carList = page.locator('div.grid.grid-cols-1.gap-5');
         this.carsAfterFilter= this.carList;
-        this.firstCar = this.carsAfterFilter.locator(':scope > div').nth(1);
+        this.firstCar = this.carsAfterFilter.locator(':scope > div').nth(0);
     }
 
     async filterPrice(price: string) {
@@ -39,6 +39,11 @@ export class HomePage {
     }
 
     async selectFirstCar() {
+        await this.firstCar.waitFor({
+            state: 'visible',
+            timeout: 10000
+        });
+
         await this.firstCar.click();
     }
 }

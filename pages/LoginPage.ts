@@ -10,7 +10,7 @@ export class LogIn {
     readonly customerAcc: Locator;
 
     // Log In Manual by password
-    readonly logInBtn: Locator;
+    // readonly logInBtn: Locator;
     readonly emailInput: Locator;
     readonly passwordInput: Locator;
     readonly rememberInfo: Locator;
@@ -29,7 +29,7 @@ export class LogIn {
 
     constructor (page: Page) {
         this.page = page;
-        this.logInBtn = page.getByRole('button', {name: 'Đăng nhập'});
+        // this.logInBtn = page.getByRole('button', {name: 'Đăng nhập'});
 
         // Login by demo
         this.adminAcc = page.locator('//button[contains(@class, "transition-colors")]').nth(1);
@@ -58,10 +58,6 @@ export class LogIn {
         await this.page.goto(url);
     }
 
-    async logIn() {
-        await this.logInBtn.click();
-    }
-
     // Demo account
     async demoLoginRole(role: string) {
         await this.page.getByText(role, {exact: true}).click();
@@ -72,12 +68,13 @@ export class LogIn {
     }
 
     // Manual log in by password
-    async fillEmail(email: string) {
-        await this.emailInput.fill(email);
-    }
-
-    async fillPassword(password: string) {
-        await this.passwordInput.fill(password);
+    async logInByPass(email?: string, password?: string) {
+        if (email) {
+            await this.emailInput.fill(email);
+        }
+        if (password) {
+            await this.passwordInput.fill(password);
+        }
     }
 
     async rememberPass() {

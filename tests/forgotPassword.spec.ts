@@ -1,6 +1,38 @@
 import {test, expect} from '@playwright/test';
+import {readCsv, getDataById} from '../utils/csv.helper';
+
 import {ForgotPassword} from '../pages/ForgotPasswordPage';
 import {URL} from '../test-data/url';
+
+// ==================== CSV DATA ====================
+interface ForgotPasswordData {
+    id: string;
+    phone?: string;
+    otp?: string;
+    newPassword?: string;
+    confirmPassword?: string;
+    expectedResult: string;
+    sendOtpStatus: string;
+    resetStatus: string;
+}
+
+interface ForgotPasswordMessage {
+    id: string;
+    sendOtpMessage: string;
+    apiMessage: string;
+    uiMessage: string;
+}
+
+// Read CSV file
+const forgotPassData = readCsv<ForgotPasswordData>(
+    './test-data/forgotPassword.csv'
+);
+
+const errorData = readCsv<ForgotPasswordMessage>(
+    './test-data/forgot-password-message.csv'
+);
+
+// ==================== TEST CASE ====================
 
 test.describe('Verify Forgot Password flow', async() => {
     test.beforeEach(async({page}) => {
@@ -9,176 +41,195 @@ test.describe('Verify Forgot Password flow', async() => {
 
     test('TC_1: Forgot password flow _ Happy path', async({page}) => {
             const forgotPassword = new ForgotPassword(page);
-            await forgotPassword.goto(URL.logIn);
-            await forgotPassword.clickLogInBtn();
+            const data01 = getDataById(forgotPassData, 'TC_01');
+            const error01 = getDataById(errorData, 'TC_01');
+            
             await forgotPassword.clickForgotPass();
-            await forgotPassword.fillPhone('0971285897');
+            await forgotPassword.fillPhone(data01.phone!);
 
             // Catch sent OTP's API
-            const sendOtpPromise = page.waitForResponse(
-                response => response.url().includes('/api/v1/auth/otp/send') &&
+            const [sendOtpResponse] = await Promise.all([
+                page.waitForResponse(
+                response => response.url().includes(URL.sendOtp) &&
                 response.request().method() === 'POST'
-            );
-            
-            // Click send OTP
-            await forgotPassword.clickSentOtp();
+                ),
+
+                forgotPassword.clickSentOtp()
+            ]);
 
             // Verify send message successful
-            const sendSuccessMessage = page.getByText('Mã OTP khôi phục mật khẩu đã gửi (Sandbox: 888888)');
+            const sendSuccessMessage = page.getByText(error01.sendOtpMessage);
             await expect(sendSuccessMessage).toBeVisible();
 
             // Send OTP's API verification
-            const sendOtpResponse = await sendOtpPromise;
-            expect(sendOtpResponse.status()).toBe(200)
+            expect(sendOtpResponse.status()).toBe(
+                Number(data01.sendOtpStatus)
+            )
 
             // Fill OTP and new password
-            await forgotPassword.fillOtp('888888');
-            await forgotPassword.fillNewPass('Abc@240902');
-            await forgotPassword.fillConfirmPass('Abc@240902');
-
-            // Catch reset password's API
-            const resetPromise = page.waitForResponse(
-                response => response.url().includes('/api/v1/auth/reset-password') &&
-                response.request().method() === 'POST'
+            await forgotPassword.setNewPass(
+                data01.otp!,
+                data01.newPassword!,
+                data01.confirmPassword!
             );
 
-            // Click reset password
-            await forgotPassword.clickResetPass();
+            // Catch reset password's API
+            const [resetResponse] = await Promise.all([
+                page.waitForResponse(
+                response => response.url().includes(URL.resetPass) &&
+                response.request().method() === 'POST'
+                ),
+
+                forgotPassword.clickResetPass()
+            ]);
 
             // Reset's API verification
-            const resetResponse = await resetPromise;
-            expect(resetResponse.status()).toBe(200);
+            expect(resetResponse.status()).toBe(
+                Number(data01.resetStatus)
+            );
 
             const resetBody = await resetResponse.json();
             expect(resetBody.success).toBe(true);
-            expect(resetBody.data.message).toBe('Đặt lại mật khẩu thành công! Vui lòng đăng nhập lại.');
+            expect(resetBody.data.message).toBe(error01.apiMessage);
 
             // UI verification after reseting successful
-            const successMessage = page.getByText('Đặt lại mật khẩu thành công! Bạn có thể đăng nhập ngay.');
+            const successMessage = page.getByText(error01.uiMessage);
             await expect(successMessage).toBeVisible();
             await expect(page).toHaveURL(/\/login/);
     });
 
     test('TC_02: Fill Incorrect phone number', async({page}) => {
         const forgotPassword = new ForgotPassword(page);
-        await forgotPassword.goto(URL.logIn);
-        await forgotPassword.clickLogInBtn();
+        const data02 = getDataById(forgotPassData, 'TC_02');
+        const error02 = getDataById(errorData, 'TC_02');
 
         // Forgot password UI flow
         await forgotPassword.clickForgotPass();
-        await forgotPassword.fillPhone('0971285897999');
+        await forgotPassword.fillPhone(data02.phone!);
 
         // Catch incorrect phone's API
-        const incorPhonePromise = page.waitForResponse(
-            response => response.url().includes('/api/v1/auth/otp/send') && 
+        const [incorPhoneResponse] = await Promise.all([
+            page.waitForResponse(
+            response => response.url().includes(URL.sendOtp) && 
             response.request().method() === 'POST'
-        );
+            ),
 
-        // Click send OTP code
-        await forgotPassword.clickSentOtp();
+            forgotPassword.clickSentOtp()
+        ]);
 
         // Incorrect phone's API verification
-        const incorPhoneResponse = await incorPhonePromise;
-        expect(incorPhoneResponse.status()).toBe(400);
+        expect(incorPhoneResponse.status()).toBe(
+            Number(data02.sendOtpStatus)
+        );
 
         const incorPhoneBody = await incorPhoneResponse.json();
         expect(incorPhoneBody.success).toBe(false);
-        expect(incorPhoneBody.error).toBe('Định dạng số điện thoại không hợp lệ (Ví dụ: 0912345678)');
+        expect(incorPhoneBody.error).toBe(error02.apiMessage);
 
         // Error message UI verification
-        const incorPhoneErrMessage = page.getByText('Định dạng số điện thoại không hợp lệ (Ví dụ: 0912345678)');
+        const incorPhoneErrMessage = page.getByText(error02.uiMessage);
         await expect(incorPhoneErrMessage).toBeVisible();
     });
 
     test('TC_03: Fill Incorrect OTP code', async({page}) => {
         const forgotPassword = new ForgotPassword(page);
-        await forgotPassword.goto(URL.logIn);
-        await forgotPassword.clickLogInBtn();
+        const data03 = getDataById(forgotPassData, 'TC_03');
+        const error03 = getDataById(errorData, 'TC_03');
 
          // Forgot password UI flow
         await forgotPassword.clickForgotPass();
-        await forgotPassword.fillPhone('0971285897');
+        await forgotPassword.fillPhone(data03.phone!);
 
         // Catch sent OTP's API
-        const sendOtpPromise = page.waitForResponse(
-            response => response.url().includes('/api/v1/auth/otp/send') &&
+        const [sendOtpResponse] = await Promise.all([
+            page.waitForResponse(
+            response => response.url().includes(URL.sendOtp) &&
             response.request().method() === 'POST'
-        );
-            
-        // Click send OTP
-        await forgotPassword.clickSentOtp();
+            ),
+
+            forgotPassword.clickSentOtp()
+        ]);
 
         // Verify send message successful
-        const sendSuccessMessage = page.getByText('Mã OTP khôi phục mật khẩu đã gửi (Sandbox: 888888)');
+        const sendSuccessMessage = page.getByText(error03.sendOtpMessage);
         await expect(sendSuccessMessage).toBeVisible();
 
         // Send OTP's API verification
-        const sendOtpResponse = await sendOtpPromise;
-        expect(sendOtpResponse.status()).toBe(200)
-
-        // Fill incorrect OTP and new password
-        await forgotPassword.fillOtp('990099');
-        await forgotPassword.fillNewPass('Abc@240902');
-        await forgotPassword.fillConfirmPass('Abc@240902');
-
-        // Catch reset password's API
-        const resetPromise = page.waitForResponse(
-            response => response.url().includes('/api/v1/auth/reset-password') &&
-            response.request().method() === 'POST'
+        expect(sendOtpResponse.status()).toBe(
+            Number(data03.sendOtpStatus)
         );
 
-        // Click reset password
-        await forgotPassword.clickResetPass();
+        // Fill incorrect OTP and new password
+        await forgotPassword.setNewPass(
+            data03.otp!,
+            data03.newPassword!,
+            data03.confirmPassword!
+        );
+
+        // Catch reset password's API
+        const [resetResponse] = await Promise.all([
+            page.waitForResponse(
+            response => response.url().includes(URL.resetPass) &&
+            response.request().method() === 'POST'
+            ),
+
+            forgotPassword.clickResetPass()
+        ]);
 
         // Reset's API verification
-        const resetResponse = await resetPromise;
-        expect(resetResponse.status()).toBe(400);
+        expect(resetResponse.status()).toBe(
+            Number(data03.resetStatus)
+        );
 
         const resetBody = await resetResponse.json();
         expect(resetBody.success).toBe(false);
-        expect(resetBody.error).toBe('Mã OTP không hợp lệ hoặc đã hết hạn');
+        expect(resetBody.error).toBe(error03.apiMessage);
 
         // UI verification after reseting successful
-        const errorMessage = page.getByText('Mã OTP không hợp lệ hoặc đã hết hạn');
+        const errorMessage = page.getByText(error03.uiMessage);
         await expect(errorMessage).toBeVisible();
     });
 
     test('TC_04: Password mismatch validation', async({page}) => {
         const forgotPassword = new ForgotPassword(page);
-        await forgotPassword.goto(URL.logIn);
-        await forgotPassword.clickLogInBtn();
+        const data04 = getDataById(forgotPassData, 'TC_04');
+        const error04 = getDataById(errorData, 'TC_04');
 
         // Forgot password UI flow
         await forgotPassword.clickForgotPass();
-        await forgotPassword.fillPhone('0971285897');
+        await forgotPassword.fillPhone(data04.phone!);
 
         // Catch sent OTP's API
-        const sendOtpPromise = page.waitForResponse(
-            response => response.url().includes('/api/v1/auth/otp/send') &&
+        const [sendOtpResponse] = await Promise.all([
+            page.waitForResponse(
+            response => response.url().includes(URL.sendOtp) &&
             response.request().method() === 'POST'
-        );
-            
-        // Click send OTP
-        await forgotPassword.clickSentOtp();
+            ),
+
+            forgotPassword.clickSentOtp()
+        ]);
 
         // Verify send message successful
-        const sendSuccessMessage = page.getByText('Mã OTP khôi phục mật khẩu đã gửi (Sandbox: 888888)');
+        const sendSuccessMessage = page.getByText(error04.sendOtpMessage);
         await expect(sendSuccessMessage).toBeVisible();
 
         // Send OTP's API verification
-        const sendOtpResponse = await sendOtpPromise;
-        expect(sendOtpResponse.status()).toBe(200)
+        expect(sendOtpResponse.status()).toBe(
+            Number(data04.sendOtpStatus)
+        );
 
         // Fill incorrect OTP and new password
-        await forgotPassword.fillOtp('888888');
-        await forgotPassword.fillNewPass('Abc@240902');
-        await forgotPassword.fillConfirmPass('Abc@24092002');
+        await forgotPassword.setNewPass(
+            data04.otp!,
+            data04.newPassword!,
+            data04.confirmPassword!
+        );
 
         // Click reset password
         await forgotPassword.clickResetPass();
 
         // UI verification after reseting successful
-        const errorMessage = page.getByText('Mật khẩu mới và xác nhận mật khẩu không trùng khớp');
+        const errorMessage = page.getByText(error04.uiMessage);
         await expect(errorMessage).toBeVisible();
 
     });
